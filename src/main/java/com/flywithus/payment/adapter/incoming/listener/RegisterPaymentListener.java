@@ -9,15 +9,14 @@ import org.springframework.stereotype.Component;
 @Component
 class RegisterPaymentListener implements ApplicationListener<ReservationMadeEvent> {
 
-    private final RegisterPaymentPort registerPaymentPort;
+  private final RegisterPaymentPort registerPaymentPort;
 
-    public RegisterPaymentListener(RegisterPaymentPort registerPaymentPort) {
-        this.registerPaymentPort = registerPaymentPort;
-    }
+  public RegisterPaymentListener(RegisterPaymentPort registerPaymentPort) {
+    this.registerPaymentPort = registerPaymentPort;
+  }
 
-    @Override
-    public void onApplicationEvent(ReservationMadeEvent event) {
-        registerPaymentPort.register(new RegisterPaymentCommand(event.getId()));
-    }
-
+  @Override
+  public void onApplicationEvent(ReservationMadeEvent event) {
+    registerPaymentPort.register(new RegisterPaymentCommand(event.getId()));
+  }
 }

@@ -4,35 +4,34 @@ import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertN
 
 class Code {
 
-    private final String code;
+  private final String code;
 
-    private Code(String code) {
-        this.code = code;
-    }
+  private Code(String code) {
+    this.code = code;
+  }
 
-    String code() {
-        return code;
-    }
+  String code() {
+    return code;
+  }
 
-    static Code of(String code) {
-        assertNotNull(code, "code");
+  static Code of(String code) {
+    assertNotNull(code, "code");
 
-        return new Code(code);
-    }
+    return new Code(code);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        Code code1 = (Code) o;
+    Code code1 = (Code) o;
 
-        return code.equals(code1.code);
-    }
+    return code.equals(code1.code);
+  }
 
-    @Override
-    public int hashCode() {
-        return code.hashCode();
-    }
-
+  @Override
+  public int hashCode() {
+    return code.hashCode();
+  }
 }

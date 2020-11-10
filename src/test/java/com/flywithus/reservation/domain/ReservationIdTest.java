@@ -1,44 +1,43 @@
 package com.flywithus.reservation.domain;
 
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+import org.junit.Test;
+
 public class ReservationIdTest {
 
-    @Test
-    public void shouldReturnReservationId() {
-        // given
-        String reservationId = "reservation id";
+  @Test
+  public void shouldReturnReservationId() {
+    // given
+    String reservationId = "reservation id";
 
-        // when
-        ReservationId result = ReservationId.of(reservationId);
+    // when
+    ReservationId result = ReservationId.of(reservationId);
 
-        // then
-        assertThat(result).isNotNull();
-        assertThat(result.id()).isEqualTo(reservationId);
-    }
+    // then
+    assertThat(result).isNotNull();
+    assertThat(result.id()).isEqualTo(reservationId);
+  }
 
-    @Test
-    public void shouldReturnGeneratedReservationId() {
-        // when
-        ReservationId result = ReservationId.generate();
+  @Test
+  public void shouldReturnGeneratedReservationId() {
+    // when
+    ReservationId result = ReservationId.generate();
 
-        // then
-        assertThat(result).isNotNull();
-    }
+    // then
+    assertThat(result).isNotNull();
+  }
 
-    @Test
-    public void shouldThrowIllegalArgumentExceptionWhenIdIsNull() {
-        // given
-        String reservationId = null;
+  @Test
+  public void shouldThrowIllegalArgumentExceptionWhenIdIsNull() {
+    // given
+    String reservationId = null;
 
-        // when
-        Throwable result = catchThrowable(() -> ReservationId.of(reservationId));
+    // when
+    Throwable result = catchThrowable(() -> ReservationId.of(reservationId));
 
-        // then
-        assertThat(result).isInstanceOf(IllegalArgumentException.class);
-    }
-
+    // then
+    assertThat(result).isInstanceOf(IllegalArgumentException.class);
+  }
 }

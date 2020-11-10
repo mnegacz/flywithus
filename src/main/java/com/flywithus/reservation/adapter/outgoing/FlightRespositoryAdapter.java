@@ -10,16 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlightRespositoryAdapter implements FlightRepositoryPort {
 
-    private final FindFlightPort findFlightPort;
+  private final FindFlightPort findFlightPort;
 
-    public FlightRespositoryAdapter(FindFlightPort findFlightPort) {
-        this.findFlightPort = findFlightPort;
-    }
+  public FlightRespositoryAdapter(FindFlightPort findFlightPort) {
+    this.findFlightPort = findFlightPort;
+  }
 
-    @Override
-    public FlightDTO find(String id) {
-        FindFlightDTO dto = findFlightPort.find(new FindFlightCommand(id));
-        return new FlightDTO(dto.getId(), dto.getDepartureDateTime(), dto.getPrice());
-    }
-
+  @Override
+  public FlightDTO find(String id) {
+    FindFlightDTO dto = findFlightPort.find(new FindFlightCommand(id));
+    return new FlightDTO(dto.getId(), dto.getDepartureDateTime(), dto.getPrice());
+  }
 }

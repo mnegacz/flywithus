@@ -1,133 +1,142 @@
 package com.flywithus.reservation.domain;
 
+import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertNotNull;
+import static com.flywithus.reservation.domain.ReservationStatus.CANCELLED;
+
 import com.flywithus.reservation.dto.FindReservationDTO;
 import com.flywithus.reservation.dto.ReservationDTO;
 import com.flywithus.reservation.exception.CannotCancelReservationException;
 import com.flywithus.reservation.exception.CannotChangeReservationException;
-
 import java.util.Optional;
-
-import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertNotNull;
-import static com.flywithus.reservation.domain.ReservationStatus.CANCELLED;
 
 class Reservation {
 
-    private static final int FIVE_DAYS = 5;
-    private static final int THREE_DAYS = 3;
+  private static final int FIVE_DAYS = 5;
+  private static final int THREE_DAYS = 3;
 
-    private ReservationId id;
-    private Client client;
-    private Flight flight;
-    private DateTime dateTime;
-    private NumberOfPeople numberOfPeople;
-    private Discount discount;
-    private ReservationStatus status;
+  private ReservationId id;
+  private Client client;
+  private Flight flight;
+  private DateTime dateTime;
+  private NumberOfPeople numberOfPeople;
+  private Discount discount;
+  private ReservationStatus status;
 
-    Reservation(ReservationId id, Client client, Flight flight, DateTime dateTime, NumberOfPeople numberOfPeople, ReservationStatus status) {
-        this.id = id;
-        this.client = client;
-        this.flight = flight;
-        this.dateTime = dateTime;
-        this.numberOfPeople = numberOfPeople;
-        this.status = status;
+  Reservation(
+      ReservationId id,
+      Client client,
+      Flight flight,
+      DateTime dateTime,
+      NumberOfPeople numberOfPeople,
+      ReservationStatus status) {
+    this.id = id;
+    this.client = client;
+    this.flight = flight;
+    this.dateTime = dateTime;
+    this.numberOfPeople = numberOfPeople;
+    this.status = status;
+  }
+
+  void applyDiscount(Discount discount) {
+    assertNotNull(discount, "discount");
+
+    this.discount = discount;
+  }
+
+  void change(Flight flight, NumberOfPeople numberOfPeople, DateTime now) {
+    assertNotNull(flight, "flight");
+    assertNotNull(numberOfPeople, "numberOfPeople");
+
+    if (!canBeChanged(now)) {
+      throw new CannotChangeReservationException();
     }
 
-    void applyDiscount(Discount discount) {
-        assertNotNull(discount, "discount");
+    this.flight = flight;
+    this.numberOfPeople = numberOfPeople;
+  }
 
-        this.discount = discount;
+  private boolean canBeChanged(DateTime now) {
+    return isNotCancelled() && moreThanThreeDaysLeftToDepartureDateTime(now);
+  }
+
+  void cancel(DateTime now) {
+    if (!canBeCancelled(now)) {
+      throw new CannotCancelReservationException();
     }
+    this.status = CANCELLED;
+  }
 
-    void change(Flight flight, NumberOfPeople numberOfPeople, DateTime now) {
-        assertNotNull(flight, "flight");
-        assertNotNull(numberOfPeople, "numberOfPeople");
+  private boolean canBeCancelled(DateTime now) {
+    return isNotCancelled() && moreThanFiveDaysLeftToDepartureDateTime(now);
+  }
 
-        if (!canBeChanged(now)) {
-            throw new CannotChangeReservationException();
-        }
+  private boolean moreThanThreeDaysLeftToDepartureDateTime(DateTime now) {
+    return moreThanXDaysLeftToDepartureDateTime(now, THREE_DAYS);
+  }
 
-        this.flight = flight;
-        this.numberOfPeople = numberOfPeople;
-    }
+  private boolean moreThanFiveDaysLeftToDepartureDateTime(DateTime now) {
+    return moreThanXDaysLeftToDepartureDateTime(now, FIVE_DAYS);
+  }
 
-    private boolean canBeChanged(DateTime now) {
-        return isNotCancelled() && moreThanThreeDaysLeftToDepartureDateTime(now);
-    }
+  private boolean moreThanXDaysLeftToDepartureDateTime(DateTime now, int xDays) {
+    assertNotNull(now, "now");
 
-    void cancel(DateTime now) {
-        if (!canBeCancelled(now)) {
-            throw new CannotCancelReservationException();
-        }
-        this.status = CANCELLED;
-    }
+    DateTime reservationDateTime = flight.departureDateTime();
+    int differenceInDays = now.differenceInDaysBetween(reservationDateTime);
+    return differenceInDays > xDays;
+  }
 
-    private boolean canBeCancelled(DateTime now) {
-        return isNotCancelled() && moreThanFiveDaysLeftToDepartureDateTime(now);
-    }
+  private boolean isNotCancelled() {
+    return !CANCELLED.equals(status);
+  }
 
-    private boolean moreThanThreeDaysLeftToDepartureDateTime(DateTime now) {
-        return moreThanXDaysLeftToDepartureDateTime(now, THREE_DAYS);
-    }
+  ReservationId id() {
+    return id;
+  }
 
-    private boolean moreThanFiveDaysLeftToDepartureDateTime(DateTime now) {
-        return moreThanXDaysLeftToDepartureDateTime(now, FIVE_DAYS);
-    }
+  Client client() {
+    return client;
+  }
 
-    private boolean moreThanXDaysLeftToDepartureDateTime(DateTime now, int xDays) {
-        assertNotNull(now, "now");
+  Flight flight() {
+    return flight;
+  }
 
-        DateTime reservationDateTime = flight.departureDateTime();
-        int differenceInDays = now.differenceInDaysBetween(reservationDateTime);
-        return differenceInDays > xDays;
-    }
+  DateTime dateTime() {
+    return dateTime;
+  }
 
-    private boolean isNotCancelled() {
-        return !CANCELLED.equals(status);
-    }
+  NumberOfPeople numberOfPeople() {
+    return numberOfPeople;
+  }
 
-    ReservationId id() {
-        return id;
-    }
+  Optional<Discount> discount() {
+    return Optional.ofNullable(discount);
+  }
 
-    Client client() {
-        return client;
-    }
+  ReservationStatus status() {
+    return status;
+  }
 
-    Flight flight() {
-        return flight;
-    }
+  ReservationDTO toDTO() {
+    ReservationDTO dto =
+        new ReservationDTO(
+            id.id(),
+            client.toDTO(),
+            flight.toDTO(),
+            numberOfPeople.number(),
+            dateTime.value(),
+            status.toDTO());
 
-    DateTime dateTime() {
-        return dateTime;
-    }
+    discount().map(Discount::toDTO).ifPresent(dto::setDiscount);
 
-    NumberOfPeople numberOfPeople() {
-        return numberOfPeople;
-    }
+    return dto;
+  }
 
-    Optional<Discount> discount() {
-        return Optional.ofNullable(discount);
-    }
+  FindReservationDTO toFindReservationDTO() {
+    Money price =
+        discount().map(discount -> flight.price().discountBy(discount)).orElse(flight.price());
 
-    ReservationStatus status() {
-        return status;
-    }
-
-    ReservationDTO toDTO() {
-        ReservationDTO dto = new ReservationDTO(id.id(), client.toDTO(), flight.toDTO(), numberOfPeople.number(), dateTime.value(), status.toDTO());
-
-        discount().map(Discount::toDTO)
-                .ifPresent(dto::setDiscount);
-
-        return dto;
-    }
-
-    FindReservationDTO toFindReservationDTO() {
-        Money price = discount()
-                .map(discount -> flight.price().discountBy(discount))
-                .orElse(flight.price());
-
-        return new FindReservationDTO(id.id(), price.amount(), dateTime.value());
-    }
-
+    return new FindReservationDTO(id.id(), price.amount(), dateTime.value());
+  }
 }

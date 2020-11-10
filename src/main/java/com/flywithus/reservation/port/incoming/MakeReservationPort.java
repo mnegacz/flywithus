@@ -4,6 +4,5 @@ import com.flywithus.reservation.command.MakeReservationCommand;
 
 public interface MakeReservationPort {
 
-    void make(MakeReservationCommand command);
-
+  void make(MakeReservationCommand command);
 }

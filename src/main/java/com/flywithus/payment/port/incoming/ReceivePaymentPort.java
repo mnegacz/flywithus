@@ -4,6 +4,5 @@ import com.flywithus.payment.command.ReceivePaymentCommand;
 
 public interface ReceivePaymentPort {
 
-    void receive(ReceivePaymentCommand command);
-
+  void receive(ReceivePaymentCommand command);
 }

@@ -4,6 +4,5 @@ import com.flywithus.reservation.command.CancelReservationCommand;
 
 public interface CancelReservationPort {
 
-    void cancel(CancelReservationCommand command);
-
+  void cancel(CancelReservationCommand command);
 }

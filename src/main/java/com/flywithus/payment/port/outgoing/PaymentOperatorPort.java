@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 
 public interface PaymentOperatorPort {
 
-    String requestPayment(BigDecimal amount);
+  String requestPayment(BigDecimal amount);
 
-    void expirePayment(String id);
-
+  void expirePayment(String id);
 }

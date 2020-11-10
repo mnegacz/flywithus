@@ -4,17 +4,15 @@ import java.util.Optional;
 
 public class ClientDTO {
 
-    private String id;
+  private String id;
 
-    public ClientDTO() {
-    }
+  public ClientDTO() {}
 
-    public ClientDTO(String id) {
-        this.id = id;
-    }
+  public ClientDTO(String id) {
+    this.id = id;
+  }
 
-    public Optional<String> getId() {
-        return Optional.ofNullable(id);
-    }
-
+  public Optional<String> getId() {
+    return Optional.ofNullable(id);
+  }
 }

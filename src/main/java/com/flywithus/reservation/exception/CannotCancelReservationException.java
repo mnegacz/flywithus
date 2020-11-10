@@ -1,4 +1,3 @@
 package com.flywithus.reservation.exception;
 
-public class CannotCancelReservationException extends RuntimeException {
-}
+public class CannotCancelReservationException extends RuntimeException {}

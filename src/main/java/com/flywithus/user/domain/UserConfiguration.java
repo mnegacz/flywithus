@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UserConfiguration {
 
-    @Bean
-    UserApplicationService userApplicationService(UserRepositoryPort userRepositoryPort) {
-        UserFactory userFactory = new UserFactory();
-        UserRepository userRepository = new UserRepository(userRepositoryPort);
-        return new UserApplicationService(userFactory, userRepository);
-    }
-
+  @Bean
+  UserApplicationService userApplicationService(UserRepositoryPort userRepositoryPort) {
+    UserFactory userFactory = new UserFactory();
+    UserRepository userRepository = new UserRepository(userRepositoryPort);
+    return new UserApplicationService(userFactory, userRepository);
+  }
 }

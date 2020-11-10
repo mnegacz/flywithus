@@ -4,42 +4,39 @@ import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertN
 
 class FlightId {
 
-    private final String id;
+  private final String id;
 
-    private FlightId(String id) {
-        this.id = id;
-    }
+  private FlightId(String id) {
+    this.id = id;
+  }
 
-    String id() {
-        return id;
-    }
+  String id() {
+    return id;
+  }
 
-    static FlightId of(String id) {
-        assertNotNull(id, "id");
+  static FlightId of(String id) {
+    assertNotNull(id, "id");
 
-        return new FlightId(id);
-    }
+    return new FlightId(id);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        FlightId flightId = (FlightId) o;
+    FlightId flightId = (FlightId) o;
 
-        return id.equals(flightId.id);
-    }
+    return id.equals(flightId.id);
+  }
 
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 
-    @Override
-    public String toString() {
-        return "FlightId{" +
-                "id='" + id + '\'' +
-                '}';
-    }
-
+  @Override
+  public String toString() {
+    return "FlightId{" + "id='" + id + '\'' + '}';
+  }
 }

@@ -5,6 +5,5 @@ import com.flywithus.flight.dto.FindFlightDTO;
 
 public interface FindFlightPort {
 
-    FindFlightDTO find(FindFlightCommand command);
-
+  FindFlightDTO find(FindFlightCommand command);
 }

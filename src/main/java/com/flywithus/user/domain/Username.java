@@ -4,35 +4,34 @@ import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertN
 
 class Username {
 
-    private final String username;
+  private final String username;
 
-    private Username(String username) {
-        this.username = username;
-    }
+  private Username(String username) {
+    this.username = username;
+  }
 
-    static Username of(String username) {
-        assertNotNull(username, "username");
+  static Username of(String username) {
+    assertNotNull(username, "username");
 
-        return new Username(username);
-    }
+    return new Username(username);
+  }
 
-    String username() {
-        return username;
-    }
+  String username() {
+    return username;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        Username username1 = (Username) o;
+    Username username1 = (Username) o;
 
-        return username.equals(username1.username);
-    }
+    return username.equals(username1.username);
+  }
 
-    @Override
-    public int hashCode() {
-        return username.hashCode();
-    }
-
+  @Override
+  public int hashCode() {
+    return username.hashCode();
+  }
 }

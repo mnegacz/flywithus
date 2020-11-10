@@ -4,14 +4,13 @@ import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertN
 
 class ClientFactory {
 
-    Client createRegisteredUser(UserId userId) {
-        assertNotNull(userId, "userId");
+  Client createRegisteredUser(UserId userId) {
+    assertNotNull(userId, "userId");
 
-        return new RegisteredUser(userId);
-    }
+    return new RegisteredUser(userId);
+  }
 
-    Client createUnregisteredUser() {
-        return new UnregisteredUser();
-    }
-
+  Client createUnregisteredUser() {
+    return new UnregisteredUser();
+  }
 }

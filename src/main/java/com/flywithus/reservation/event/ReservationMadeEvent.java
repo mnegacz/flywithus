@@ -4,15 +4,14 @@ import org.springframework.context.ApplicationEvent;
 
 public class ReservationMadeEvent extends ApplicationEvent {
 
-    private final String id;
+  private final String id;
 
-    public ReservationMadeEvent(Object source, String id) {
-        super(source);
-        this.id = id;
-    }
+  public ReservationMadeEvent(Object source, String id) {
+    super(source);
+    this.id = id;
+  }
 
-    public String getId() {
-        return id;
-    }
-
+  public String getId() {
+    return id;
+  }
 }

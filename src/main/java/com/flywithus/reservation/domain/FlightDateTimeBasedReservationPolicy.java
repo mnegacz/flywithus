@@ -4,14 +4,14 @@ import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertN
 
 class FlightDateTimeBasedReservationPolicy {
 
-    private DateTimeFactory dateTimeFactory;
+  private DateTimeFactory dateTimeFactory;
 
-    boolean isImpossibleLaterThanXDaysBeforeFlightDepartureDateTime(Reservation reservation, int days) {
-        assertNotNull(reservation, "reservation");
+  boolean isImpossibleLaterThanXDaysBeforeFlightDepartureDateTime(
+      Reservation reservation, int days) {
+    assertNotNull(reservation, "reservation");
 
-        int differenceInDays = dateTimeFactory.now().differenceInDaysBetween(reservation.flight().departureDateTime());
-        return differenceInDays < days;
-    }
-
-
+    int differenceInDays =
+        dateTimeFactory.now().differenceInDaysBetween(reservation.flight().departureDateTime());
+    return differenceInDays < days;
+  }
 }

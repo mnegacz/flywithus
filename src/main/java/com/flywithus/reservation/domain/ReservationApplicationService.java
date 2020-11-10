@@ -1,5 +1,8 @@
 package com.flywithus.reservation.domain;
 
+import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertNotNull;
+import static org.slf4j.LoggerFactory.getLogger;
+
 import com.flywithus.reservation.command.CancelReservationCommand;
 import com.flywithus.reservation.command.ChangeReservationCommand;
 import com.flywithus.reservation.command.FindReservationCommand;
@@ -11,86 +14,96 @@ import com.flywithus.reservation.port.incoming.ChangeReservationPort;
 import com.flywithus.reservation.port.incoming.FindReservationPort;
 import com.flywithus.reservation.port.incoming.MakeReservationPort;
 import com.flywithus.reservation.port.outgoing.EventPublisherPort;
+import java.util.Optional;
 import org.slf4j.Logger;
 
-import java.util.Optional;
+public class ReservationApplicationService
+    implements MakeReservationPort,
+        ChangeReservationPort,
+        CancelReservationPort,
+        FindReservationPort {
 
-import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertNotNull;
-import static org.slf4j.LoggerFactory.getLogger;
+  private static final Logger LOG = getLogger(ReservationApplicationService.class);
 
-public class ReservationApplicationService implements MakeReservationPort, ChangeReservationPort, CancelReservationPort, FindReservationPort {
+  private final ClientRepository clientRepository;
+  private final FlightRepository flightRepository;
+  private final ReservationFactory reservationFactory;
+  private final ReservationRepository reservationRepository;
+  private final DateTimeFactory dateTimeFactory;
+  private final EventPublisherPort eventPublisherPort;
 
-    private static final Logger LOG = getLogger(ReservationApplicationService.class);
+  ReservationApplicationService(
+      ClientRepository clientRepository,
+      FlightRepository flightRepository,
+      ReservationFactory reservationFactory,
+      ReservationRepository reservationRepository,
+      DateTimeFactory dateTimeFactory,
+      EventPublisherPort eventPublisherPort) {
+    this.clientRepository = clientRepository;
+    this.flightRepository = flightRepository;
+    this.reservationFactory = reservationFactory;
+    this.reservationRepository = reservationRepository;
+    this.dateTimeFactory = dateTimeFactory;
+    this.eventPublisherPort = eventPublisherPort;
+  }
 
-    private final ClientRepository clientRepository;
-    private final FlightRepository flightRepository;
-    private final ReservationFactory reservationFactory;
-    private final ReservationRepository reservationRepository;
-    private final DateTimeFactory dateTimeFactory;
-    private final EventPublisherPort eventPublisherPort;
+  @Override
+  public void make(MakeReservationCommand command) {
+    assertNotNull(command, "command");
 
-    ReservationApplicationService(ClientRepository clientRepository, FlightRepository flightRepository, ReservationFactory reservationFactory, ReservationRepository reservationRepository, DateTimeFactory dateTimeFactory, EventPublisherPort eventPublisherPort) {
-        this.clientRepository = clientRepository;
-        this.flightRepository = flightRepository;
-        this.reservationFactory = reservationFactory;
-        this.reservationRepository = reservationRepository;
-        this.dateTimeFactory = dateTimeFactory;
-        this.eventPublisherPort = eventPublisherPort;
-    }
+    Optional<UserId> userId = Optional.ofNullable(command.getUserId()).map(UserId::of);
+    Client client = clientRepository.find(userId);
+    Flight flight = flightRepository.find(FlightId.of(command.getFlightId()));
+    NumberOfPeople numberOfPeople = NumberOfPeople.of(command.getNumberOfPeople());
 
-    @Override
-    public void make(MakeReservationCommand command) {
-        assertNotNull(command, "command");
+    Reservation reservation = reservationFactory.createReservation(client, flight, numberOfPeople);
 
-        Optional<UserId> userId = Optional.ofNullable(command.getUserId()).map(UserId::of);
-        Client client = clientRepository.find(userId);
-        Flight flight = flightRepository.find(FlightId.of(command.getFlightId()));
-        NumberOfPeople numberOfPeople = NumberOfPeople.of(command.getNumberOfPeople());
+    reservationRepository.save(reservation);
 
-        Reservation reservation = reservationFactory.createReservation(client, flight, numberOfPeople);
+    LOG.info("Reservation {} for flight {} has been made", reservation.id(), flight.id());
 
-        reservationRepository.save(reservation);
+    eventPublisherPort.publishEvent(new ReservationMadeEvent(reservation, reservation.id().id()));
+  }
 
-        LOG.info("Reservation {} for flight {} has been made", reservation.id(), flight.id());
+  @Override
+  public void change(ChangeReservationCommand command) {
+    assertNotNull(command, "command");
 
-        eventPublisherPort.publishEvent(new ReservationMadeEvent(reservation, reservation.id().id()));
-    }
+    Reservation reservation =
+        reservationRepository.find(ReservationId.of(command.getReservationId()));
+    Flight flight = flightRepository.find(FlightId.of(command.getFlightId()));
+    NumberOfPeople numberOfPeople = NumberOfPeople.of(command.getNumberOfPeople());
+    DateTime now = dateTimeFactory.now();
 
-    @Override
-    public void change(ChangeReservationCommand command) {
-        assertNotNull(command, "command");
+    reservation.change(flight, numberOfPeople, now);
 
-        Reservation reservation = reservationRepository.find(ReservationId.of(command.getReservationId()));
-        Flight flight = flightRepository.find(FlightId.of(command.getFlightId()));
-        NumberOfPeople numberOfPeople = NumberOfPeople.of(command.getNumberOfPeople());
-        DateTime now = dateTimeFactory.now();
+    reservationRepository.save(reservation);
 
-        reservation.change(flight, numberOfPeople, now);
+    LOG.info("Reservation {} for flight {} has been changed", reservation.id(), flight.id());
+  }
 
-        reservationRepository.save(reservation);
+  @Override
+  public void cancel(CancelReservationCommand command) {
+    assertNotNull(command, "command");
 
-        LOG.info("Reservation {} for flight {} has been changed", reservation.id(), flight.id());
-    }
+    Reservation reservation =
+        reservationRepository.find(ReservationId.of(command.getReservationId()));
+    DateTime now = dateTimeFactory.now();
 
-    @Override
-    public void cancel(CancelReservationCommand command) {
-        assertNotNull(command, "command");
+    reservation.cancel(now);
 
-        Reservation reservation = reservationRepository.find(ReservationId.of(command.getReservationId()));
-        DateTime now = dateTimeFactory.now();
+    reservationRepository.save(reservation);
 
-        reservation.cancel(now);
+    LOG.info(
+        "Reservation {} for flight {} has been cancelled",
+        reservation.id(),
+        reservation.flight().id());
+  }
 
-        reservationRepository.save(reservation);
+  @Override
+  public FindReservationDTO find(FindReservationCommand command) {
+    assertNotNull(command, "command");
 
-        LOG.info("Reservation {} for flight {} has been cancelled", reservation.id(), reservation.flight().id());
-    }
-
-    @Override
-    public FindReservationDTO find(FindReservationCommand command) {
-        assertNotNull(command, "command");
-
-        return reservationRepository.find(ReservationId.of(command.getId())).toFindReservationDTO();
-    }
-
+    return reservationRepository.find(ReservationId.of(command.getId())).toFindReservationDTO();
+  }
 }

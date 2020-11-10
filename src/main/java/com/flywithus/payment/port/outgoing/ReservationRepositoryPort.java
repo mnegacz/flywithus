@@ -4,6 +4,5 @@ import com.flywithus.payment.dto.ReservationDTO;
 
 public interface ReservationRepositoryPort {
 
-    ReservationDTO find(String id);
-
+  ReservationDTO find(String id);
 }

@@ -10,9 +10,8 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 @EnableScheduling
 class ScheduleConfiguration {
 
-    @Bean
-    TaskScheduler taskScheduler() {
-        return new ConcurrentTaskScheduler();
-    }
-
+  @Bean
+  TaskScheduler taskScheduler() {
+    return new ConcurrentTaskScheduler();
+  }
 }

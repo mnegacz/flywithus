@@ -1,47 +1,46 @@
 package com.flywithus.payment.domain;
 
-import java.time.LocalDateTime;
-
 import static com.flywithus.infrastructure.assertions.ArgumentAssertions.assertNotNull;
 import static java.time.temporal.ChronoUnit.DAYS;
 
+import java.time.LocalDateTime;
+
 class DateTime {
 
-    private final LocalDateTime value;
+  private final LocalDateTime value;
 
-    private DateTime(LocalDateTime value) {
-        this.value = value;
-    }
+  private DateTime(LocalDateTime value) {
+    this.value = value;
+  }
 
-    LocalDateTime value() {
-        return value;
-    }
+  LocalDateTime value() {
+    return value;
+  }
 
-    int differenceInDaysBetween(DateTime other) {
-        assertNotNull(other, "other");
+  int differenceInDaysBetween(DateTime other) {
+    assertNotNull(other, "other");
 
-        return Math.abs((int) DAYS.between(value, other.value));
-    }
+    return Math.abs((int) DAYS.between(value, other.value));
+  }
 
-    static DateTime of(LocalDateTime value) {
-        assertNotNull(value, "value");
+  static DateTime of(LocalDateTime value) {
+    assertNotNull(value, "value");
 
-        return new DateTime(value);
-    }
+    return new DateTime(value);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        DateTime dateTime = (DateTime) o;
+    DateTime dateTime = (DateTime) o;
 
-        return value.equals(dateTime.value);
-    }
+    return value.equals(dateTime.value);
+  }
 
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
+  @Override
+  public int hashCode() {
+    return value.hashCode();
+  }
 }

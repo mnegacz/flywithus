@@ -4,8 +4,7 @@ import java.time.LocalDateTime;
 
 class DateTimeFactory {
 
-    DateTime now() {
-        return DateTime.of(LocalDateTime.now());
-    }
-
+  DateTime now() {
+    return DateTime.of(LocalDateTime.now());
+  }
 }

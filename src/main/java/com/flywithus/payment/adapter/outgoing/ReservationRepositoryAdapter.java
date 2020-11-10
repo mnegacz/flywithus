@@ -10,16 +10,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 class ReservationRepositoryAdapter implements ReservationRepositoryPort {
 
-    private final FindReservationPort findReservationPort;
+  private final FindReservationPort findReservationPort;
 
-    public ReservationRepositoryAdapter(FindReservationPort findReservationPort) {
-        this.findReservationPort = findReservationPort;
-    }
+  public ReservationRepositoryAdapter(FindReservationPort findReservationPort) {
+    this.findReservationPort = findReservationPort;
+  }
 
-    @Override
-    public ReservationDTO find(String id) {
-        FindReservationDTO dto = findReservationPort.find(new FindReservationCommand(id));
-        return new ReservationDTO(dto.getId(), dto.getAmount(), dto.getDateTime());
-    }
-
+  @Override
+  public ReservationDTO find(String id) {
+    FindReservationDTO dto = findReservationPort.find(new FindReservationCommand(id));
+    return new ReservationDTO(dto.getId(), dto.getAmount(), dto.getDateTime());
+  }
 }

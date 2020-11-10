@@ -5,6 +5,5 @@ import com.flywithus.reservation.dto.FindReservationDTO;
 
 public interface FindReservationPort {
 
-    FindReservationDTO find(FindReservationCommand command);
-
+  FindReservationDTO find(FindReservationCommand command);
 }

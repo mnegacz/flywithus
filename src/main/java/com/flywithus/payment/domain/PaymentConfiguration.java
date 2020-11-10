@@ -9,18 +9,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class PaymentConfiguration {
 
-    @Bean
-    PaymentApplicationService paymentApplicationService(PaymentOperatorPort paymentOperatorPort, PaymentRepositoryPort paymentRepositoryPort, ReservationRepositoryPort reservationRepositoryPort) {
-        DateTimeFactory dateTimeFactory = new DateTimeFactory();
-        PaymentFactory paymentFactory = new PaymentFactory();
-        ReservationFactory reservationFactory = new ReservationFactory();
+  @Bean
+  PaymentApplicationService paymentApplicationService(
+      PaymentOperatorPort paymentOperatorPort,
+      PaymentRepositoryPort paymentRepositoryPort,
+      ReservationRepositoryPort reservationRepositoryPort) {
+    DateTimeFactory dateTimeFactory = new DateTimeFactory();
+    PaymentFactory paymentFactory = new PaymentFactory();
+    ReservationFactory reservationFactory = new ReservationFactory();
 
-        ReservationRepository reservationRepository = new ReservationRepository(reservationRepositoryPort, reservationFactory);
-        PaymentRepository paymentRepository = new PaymentRepository(paymentRepositoryPort, paymentFactory, reservationRepository);
+    ReservationRepository reservationRepository =
+        new ReservationRepository(reservationRepositoryPort, reservationFactory);
+    PaymentRepository paymentRepository =
+        new PaymentRepository(paymentRepositoryPort, paymentFactory, reservationRepository);
 
-        PaymentOperator paymentOperator = new PaymentOperator(paymentOperatorPort);
+    PaymentOperator paymentOperator = new PaymentOperator(paymentOperatorPort);
 
-        return new PaymentApplicationService(paymentOperator, paymentFactory, paymentRepository, reservationRepository, dateTimeFactory);
-    }
-
+    return new PaymentApplicationService(
+        paymentOperator, paymentFactory, paymentRepository, reservationRepository, dateTimeFactory);
+  }
 }

@@ -4,6 +4,5 @@ import com.flywithus.reservation.command.ChangeReservationCommand;
 
 public interface ChangeReservationPort {
 
-    void change(ChangeReservationCommand command);
-
+  void change(ChangeReservationCommand command);
 }

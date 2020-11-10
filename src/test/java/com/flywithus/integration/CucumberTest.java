@@ -6,5 +6,4 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(strict = true, features = "features")
-public class CucumberTest {
-}
+public class CucumberTest {}

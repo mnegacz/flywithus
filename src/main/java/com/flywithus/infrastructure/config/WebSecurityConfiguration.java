@@ -11,27 +11,27 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserAuthenticationProvider authenticationProvider;
+  private final UserAuthenticationProvider authenticationProvider;
 
-    WebSecurityConfiguration(UserAuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-    }
+  WebSecurityConfiguration(UserAuthenticationProvider authenticationProvider) {
+    this.authenticationProvider = authenticationProvider;
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(authenticationProvider);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                    .disable()
-                .authorizeRequests()
-                    .antMatchers("/flight", "/payment", "/reservation", "/user").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                .httpBasic();
-    }
-
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers("/flight", "/payment", "/reservation", "/user")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .httpBasic();
+  }
 }

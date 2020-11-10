@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/payment")
 class PaymentController {
 
-    private final ReceivePaymentPort receivePaymentPort;
+  private final ReceivePaymentPort receivePaymentPort;
 
-    PaymentController(ReceivePaymentPort receivePaymentPort) {
-        this.receivePaymentPort = receivePaymentPort;
-    }
+  PaymentController(ReceivePaymentPort receivePaymentPort) {
+    this.receivePaymentPort = receivePaymentPort;
+  }
 
-    @PutMapping
-    void receive(@RequestBody ReceivePaymentCommand command) {
-        receivePaymentPort.receive(command);
-    }
-
+  @PutMapping
+  void receive(@RequestBody ReceivePaymentCommand command) {
+    receivePaymentPort.receive(command);
+  }
 }

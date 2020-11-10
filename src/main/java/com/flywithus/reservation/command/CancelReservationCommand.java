@@ -2,21 +2,19 @@ package com.flywithus.reservation.command;
 
 public class CancelReservationCommand {
 
-    private String reservationId;
+  private String reservationId;
 
-    public CancelReservationCommand() {
-    }
+  public CancelReservationCommand() {}
 
-    public CancelReservationCommand(String reservationId) {
-        this.reservationId = reservationId;
-    }
+  public CancelReservationCommand(String reservationId) {
+    this.reservationId = reservationId;
+  }
 
-    public String getReservationId() {
-        return reservationId;
-    }
+  public String getReservationId() {
+    return reservationId;
+  }
 
-    public void setReservationId(String reservationId) {
-        this.reservationId = reservationId;
-    }
-
+  public void setReservationId(String reservationId) {
+    this.reservationId = reservationId;
+  }
 }

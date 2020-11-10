@@ -4,6 +4,5 @@ import com.flywithus.user.command.RegisterUserCommand;
 
 public interface RegisterUserPort {
 
-    void register(RegisterUserCommand command);
-
+  void register(RegisterUserCommand command);
 }

@@ -4,6 +4,5 @@ import com.flywithus.payment.command.RegisterPaymentCommand;
 
 public interface RegisterPaymentPort {
 
-    void register(RegisterPaymentCommand command);
-
+  void register(RegisterPaymentCommand command);
 }

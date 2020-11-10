@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 class UserController {
 
-    private final RegisterUserPort registerUserPort;
+  private final RegisterUserPort registerUserPort;
 
-    UserController(RegisterUserPort registerUserPort) {
-        this.registerUserPort = registerUserPort;
-    }
+  UserController(RegisterUserPort registerUserPort) {
+    this.registerUserPort = registerUserPort;
+  }
 
-    @PostMapping
-    void register(@RequestBody RegisterUserCommand command) {
-        registerUserPort.register(command);
-    }
-
+  @PostMapping
+  void register(@RequestBody RegisterUserCommand command) {
+    registerUserPort.register(command);
+  }
 }

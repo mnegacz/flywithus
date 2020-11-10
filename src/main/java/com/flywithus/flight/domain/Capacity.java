@@ -2,33 +2,32 @@ package com.flywithus.flight.domain;
 
 class Capacity {
 
-    private final int capacity;
+  private final int capacity;
 
-    private Capacity(int capacity) {
-        this.capacity = capacity;
-    }
+  private Capacity(int capacity) {
+    this.capacity = capacity;
+  }
 
-    public int capacity() {
-        return capacity;
-    }
+  public int capacity() {
+    return capacity;
+  }
 
-    static Capacity of(int capacity) {
-        return new Capacity(capacity);
-    }
+  static Capacity of(int capacity) {
+    return new Capacity(capacity);
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-        Capacity capacity1 = (Capacity) o;
+    Capacity capacity1 = (Capacity) o;
 
-        return capacity == capacity1.capacity;
-    }
+    return capacity == capacity1.capacity;
+  }
 
-    @Override
-    public int hashCode() {
-        return capacity;
-    }
-
+  @Override
+  public int hashCode() {
+    return capacity;
+  }
 }

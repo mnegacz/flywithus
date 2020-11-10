@@ -1,4 +1,3 @@
 package com.flywithus.payment.exception;
 
-public class CannotReceivePaymentException extends RuntimeException {
-}
+public class CannotReceivePaymentException extends RuntimeException {}

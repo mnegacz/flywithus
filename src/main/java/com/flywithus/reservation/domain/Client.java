@@ -4,6 +4,5 @@ import com.flywithus.reservation.dto.ClientDTO;
 
 interface Client {
 
-    ClientDTO toDTO();
-
+  ClientDTO toDTO();
 }

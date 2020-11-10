@@ -7,12 +7,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class FlightConfiguration {
 
-    @Bean
-    FlightApplicationService flightApplicationService(FlightRepositoryPort flightRepositoryPort) {
-        FlightFactory flightFactory = new FlightFactory();
-        FlightRepository flightRepository = new FlightRepository(flightRepositoryPort, flightFactory);
+  @Bean
+  FlightApplicationService flightApplicationService(FlightRepositoryPort flightRepositoryPort) {
+    FlightFactory flightFactory = new FlightFactory();
+    FlightRepository flightRepository = new FlightRepository(flightRepositoryPort, flightFactory);
 
-        return new FlightApplicationService(flightRepository);
-    }
-
+    return new FlightApplicationService(flightRepository);
+  }
 }
