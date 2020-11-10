@@ -13,7 +13,7 @@ class UserController {
 
   private final RegisterUserPort registerUserPort;
 
-  @PostMapping("/user")
+  @PostMapping("/users")
   void register(@RequestBody RegisterUserCommand command) {
     registerUserPort.register(command);
   }

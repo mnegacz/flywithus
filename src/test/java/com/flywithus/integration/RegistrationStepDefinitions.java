@@ -40,7 +40,7 @@ public class RegistrationStepDefinitions extends IntegrationTest {
   @When("the user registers")
   public void userRegisters() throws Exception {
     RegisterUserCommand command = new RegisterUserCommand(username, password.toCharArray());
-    postJson("/user", command).andExpect(status().isOk());
+    postJson("/users", command).andExpect(status().isOk());
   }
 
   @Then("the user is registered")

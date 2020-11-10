@@ -27,7 +27,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/flight", "/payment", "/reservation", "/user")
+        .regexMatchers("\\/flights?", "\\/payments?", "\\/reservation?", "\\/users?")
         .permitAll()
         .anyRequest()
         .authenticated()
