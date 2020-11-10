@@ -14,8 +14,7 @@ public class PasswordTest {
 
     val result = Password.of(password);
 
-    assertThat(result).isNotNull();
-    assertThat(result.value()).isEqualTo(password);
+    assertThat(result).isEqualTo(new Password(password));
   }
 
   @Test

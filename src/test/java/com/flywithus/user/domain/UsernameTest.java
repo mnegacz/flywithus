@@ -14,8 +14,7 @@ public class UsernameTest {
 
     val result = Username.of(username);
 
-    assertThat(result).isNotNull();
-    assertThat(result.value()).isEqualTo(username);
+    assertThat(result).isEqualTo(new Username(username));
   }
 
   @Test

@@ -14,8 +14,7 @@ public class UserIdTest {
 
     val result = UserId.of(id);
 
-    assertThat(result).isNotNull();
-    assertThat(result.id()).isEqualTo(id);
+    assertThat(result).isEqualTo(new UserId(id));
   }
 
   @Test
