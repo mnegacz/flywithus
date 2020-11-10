@@ -9,24 +9,19 @@ import org.junit.Test;
 public class UsernameTest {
 
   @Test
-  public void shouldReturnUsername() {
-    // given
+  public void returnsUsername() {
     val username = "username";
 
-    // when
     val result = Username.of(username);
 
-    // then
     assertThat(result).isNotNull();
     assertThat(result.value()).isEqualTo(username);
   }
 
   @Test
-  public void shouldThrowIllegalArgumentExceptionWhenUsernameIsNull() {
-    // when
+  public void throwsIllegalArgumentExceptionWhenUsernameIsNull() {
     val result = catchThrowable(() -> Username.of(null));
 
-    // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);
   }
 }

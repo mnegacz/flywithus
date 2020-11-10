@@ -14,11 +14,9 @@ public class UserFactoryTest {
   private UserFactory testee = new UserFactory();
 
   @Test
-  public void shouldCreateUser() {
-    // when
+  public void createsUser() {
     val result = testee.createUser(USERNAME, PASSWORD);
 
-    // then
     assertThat(result).isNotNull();
     assertThat(result.id()).isNotNull();
     assertThat(result.username()).isEqualTo(USERNAME);
@@ -26,20 +24,16 @@ public class UserFactoryTest {
   }
 
   @Test
-  public void shouldThrowIllegalArgumentExceptionWhenUsernameIsNull() {
-    // when
+  public void throwsIllegalArgumentExceptionWhenUsernameIsNull() {
     val result = catchThrowable(() -> testee.createUser(null, PASSWORD));
 
-    // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
-  public void shouldThrowIllegalArgumentExceptionWhenPasswordIsNull() {
-    // when
+  public void throwsIllegalArgumentExceptionWhenPasswordIsNull() {
     val result = catchThrowable(() -> testee.createUser(USERNAME, null));
 
-    // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);
   }
 }

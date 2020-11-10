@@ -9,24 +9,19 @@ import org.junit.Test;
 public class PasswordTest {
 
   @Test
-  public void shouldReturnPassword() {
-    // given
+  public void returnsPassword() {
     val password = "password".toCharArray();
 
-    // when
     val result = Password.of(password);
 
-    // then
     assertThat(result).isNotNull();
     assertThat(result.value()).isEqualTo(password);
   }
 
   @Test
-  public void shouldThrowIllegalArgumentExceptionWhenPasswordIsNull() {
-    // when
+  public void throwsIllegalArgumentExceptionWhenPasswordIsNull() {
     val result = catchThrowable(() -> Password.of(null));
 
-    // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);
   }
 }

@@ -28,25 +28,19 @@ public class UserApplicationServiceTest {
   @InjectMocks private UserApplicationService testee;
 
   @Test
-  public void shouldRegisterUser() {
-    // given
+  public void registersUser() {
     val command = new RegisterUserCommand(USERNAME.value(), PASSWORD.value());
-
     given(userFactory.createUser(USERNAME, PASSWORD)).willReturn(user);
 
-    // when
     testee.register(command);
 
-    // then
     verify(userRepository).save(user);
   }
 
   @Test
-  public void shouldThrowIllegalArgumentExceptionWhenRegisterUserCommandIsNull() {
-    // when
+  public void throwsIllegalArgumentExceptionWhenRegisterUserCommandIsNull() {
     val result = catchThrowable(() -> testee.register(null));
 
-    // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);
   }
 }
