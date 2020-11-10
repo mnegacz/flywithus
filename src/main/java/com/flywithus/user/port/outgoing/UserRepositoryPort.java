@@ -1,8 +1,8 @@
 package com.flywithus.user.port.outgoing;
 
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
 
 public interface UserRepositoryPort {
 
-  void save(UserDTO user);
+  void save(UserDto user);
 }

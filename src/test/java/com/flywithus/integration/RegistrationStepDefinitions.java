@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.flywithus.user.adapter.outgoing.InMemoryUserRepositoryAdapter;
 import com.flywithus.user.command.RegisterUserCommand;
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -45,7 +45,7 @@ public class RegistrationStepDefinitions extends IntegrationTest {
 
   @Then("the user is registered")
   public void userIsRegistered() {
-    UserDTO user = inMemoryUserRepositoryAdapter.findByUsername(username);
+    UserDto user = inMemoryUserRepositoryAdapter.findByUsername(username);
 
     assertThat(user.getId()).isNotEmpty();
     assertThat(user.getUsername()).isEqualTo(username);

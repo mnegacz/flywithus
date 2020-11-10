@@ -3,39 +3,32 @@ package com.flywithus.user.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+import lombok.val;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public class UserFactoryTest {
 
-  @Mock private Username username;
-
-  @Mock private Password password;
+  private static final Username USERNAME = Username.of("username");
+  private static final Password PASSWORD = Password.of("password".toCharArray());
 
   private UserFactory testee = new UserFactory();
 
   @Test
   public void shouldCreateUser() {
     // when
-    User result = testee.createUser(username, password);
+    val result = testee.createUser(USERNAME, PASSWORD);
 
     // then
     assertThat(result).isNotNull();
     assertThat(result.id()).isNotNull();
-    assertThat(result.username()).isEqualTo(username);
-    assertThat(result.password()).isEqualTo(password);
+    assertThat(result.username()).isEqualTo(USERNAME);
+    assertThat(result.password()).isEqualTo(PASSWORD);
   }
 
   @Test
   public void shouldThrowIllegalArgumentExceptionWhenUsernameIsNull() {
-    // given
-    Username anotherUsername = null;
-
     // when
-    Throwable result = catchThrowable(() -> testee.createUser(anotherUsername, password));
+    val result = catchThrowable(() -> testee.createUser(null, PASSWORD));
 
     // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);
@@ -43,11 +36,8 @@ public class UserFactoryTest {
 
   @Test
   public void shouldThrowIllegalArgumentExceptionWhenPasswordIsNull() {
-    // given
-    Password anotherPassword = null;
-
     // when
-    Throwable result = catchThrowable(() -> testee.createUser(username, anotherPassword));
+    val result = catchThrowable(() -> testee.createUser(USERNAME, null));
 
     // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);

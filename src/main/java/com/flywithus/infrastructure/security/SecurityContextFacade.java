@@ -1,6 +1,6 @@
 package com.flywithus.infrastructure.security;
 
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
 import java.util.Optional;
 import javax.annotation.Nullable;
 import org.springframework.security.core.Authentication;
@@ -16,9 +16,9 @@ public class SecurityContextFacade {
     return Optional.ofNullable(context())
         .map(SecurityContext::getAuthentication)
         .map(Authentication::getPrincipal)
-        .filter(UserDTO.class::isInstance)
-        .map(UserDTO.class::cast)
-        .map(UserDTO::getId)
+        .filter(UserDto.class::isInstance)
+        .map(UserDto.class::cast)
+        .map(UserDto::getId)
         .orElse(null);
   }
 

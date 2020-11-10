@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.BDDMockito.given;
 
 import com.flywithus.user.adapter.outgoing.InMemoryUserRepositoryAdapter;
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +27,6 @@ public class UserAuthenticationProviderTest {
 
   @Mock private InMemoryUserRepositoryAdapter inMemoryUserRepositoryAdapter;
 
-  @Mock private UserDTO userDTO;
-
   @Mock private Authentication authentication;
 
   @Mock private Object details;
@@ -44,8 +43,8 @@ public class UserAuthenticationProviderTest {
   @Test
   public void shouldAuthenticateUser() {
     // given
+    val userDTO = UserDto.builder().password(PASSWORD.toCharArray()).build();
     given(inMemoryUserRepositoryAdapter.findByUsername(USERNAME)).willReturn(userDTO);
-    given(userDTO.getPassword()).willReturn(PASSWORD.toCharArray());
 
     // when
     Authentication result = testee.authenticate(authentication);
@@ -73,6 +72,7 @@ public class UserAuthenticationProviderTest {
   @Test
   public void shouldThrowBadCredentialsExceptionWhenCredentialsDoesNotMatch() {
     // given
+    val userDTO = UserDto.builder().build();
     given(inMemoryUserRepositoryAdapter.findByUsername(USERNAME)).willReturn(userDTO);
 
     // when

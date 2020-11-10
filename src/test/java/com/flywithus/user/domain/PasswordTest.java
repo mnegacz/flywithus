@@ -3,6 +3,7 @@ package com.flywithus.user.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+import lombok.val;
 import org.junit.Test;
 
 public class PasswordTest {
@@ -10,23 +11,20 @@ public class PasswordTest {
   @Test
   public void shouldReturnPassword() {
     // given
-    char[] password = "password".toCharArray();
+    val password = "password".toCharArray();
 
     // when
-    Password result = Password.of(password);
+    val result = Password.of(password);
 
     // then
     assertThat(result).isNotNull();
-    assertThat(result.password()).isEqualTo(password);
+    assertThat(result.value()).isEqualTo(password);
   }
 
   @Test
   public void shouldThrowIllegalArgumentExceptionWhenPasswordIsNull() {
-    // given
-    char[] password = null;
-
     // when
-    Throwable result = catchThrowable(() -> Password.of(password));
+    val result = catchThrowable(() -> Password.of(null));
 
     // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);

@@ -3,7 +3,8 @@ package com.flywithus.infrastructure.security;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +23,6 @@ public class SecurityContextFacadeTest {
 
   @Mock private Authentication authentication;
 
-  @Mock private UserDTO userDTO;
-
   @Spy private SecurityContextFacade testee;
 
   @Before
@@ -34,9 +33,9 @@ public class SecurityContextFacadeTest {
   @Test
   public void shouldReturnUserId() {
     // given
+    val userDTO = UserDto.builder().id(USER_ID).build();
     given(securityContext.getAuthentication()).willReturn(authentication);
     given(authentication.getPrincipal()).willReturn(userDTO);
-    given(userDTO.getId()).willReturn(USER_ID);
 
     // when
     String result = testee.findCurrentUserId();

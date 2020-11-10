@@ -8,6 +8,6 @@ class UserFactory {
     assertNotNull(username, "username");
     assertNotNull(password, "password");
 
-    return new User(UserId.generate(), username, password);
+    return User.builder().id(UserId.generate()).username(username).password(password).build();
   }
 }

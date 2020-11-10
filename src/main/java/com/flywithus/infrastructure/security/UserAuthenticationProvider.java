@@ -1,7 +1,7 @@
 package com.flywithus.infrastructure.security;
 
 import com.flywithus.user.adapter.outgoing.InMemoryUserRepositoryAdapter;
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
 import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     try {
-      UserDTO userDTO = inMemoryUserRepositoryAdapter.findByUsername(authentication.getName());
+      UserDto userDTO = inMemoryUserRepositoryAdapter.findByUsername(authentication.getName());
       if (passwordMatches(authentication, userDTO)) {
         return createToken(authentication, userDTO);
       } else {
@@ -40,7 +40,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
   }
 
   private UsernamePasswordAuthenticationToken createToken(
-      Authentication authentication, UserDTO userDTO) {
+      Authentication authentication, UserDto userDTO) {
     List<SimpleGrantedAuthority> authorities =
         ImmutableList.of(new SimpleGrantedAuthority(ROLE_CLIENT));
     UsernamePasswordAuthenticationToken token =
@@ -50,7 +50,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     return token;
   }
 
-  private boolean passwordMatches(Authentication authentication, UserDTO userDTO) {
+  private boolean passwordMatches(Authentication authentication, UserDto userDTO) {
     return Arrays.equals(
         authentication.getCredentials().toString().toCharArray(), userDTO.getPassword());
   }

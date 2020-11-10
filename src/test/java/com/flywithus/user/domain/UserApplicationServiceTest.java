@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import com.flywithus.user.command.RegisterUserCommand;
+import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ public class UserApplicationServiceTest {
   @Test
   public void shouldRegisterUser() {
     // given
-    RegisterUserCommand command = new RegisterUserCommand(USERNAME.username(), PASSWORD.password());
+    val command = new RegisterUserCommand(USERNAME.value(), PASSWORD.value());
 
     given(userFactory.createUser(USERNAME, PASSWORD)).willReturn(user);
 
@@ -42,11 +43,8 @@ public class UserApplicationServiceTest {
 
   @Test
   public void shouldThrowIllegalArgumentExceptionWhenRegisterUserCommandIsNull() {
-    // given
-    RegisterUserCommand command = null;
-
     // when
-    Throwable result = catchThrowable(() -> testee.register(command));
+    val result = catchThrowable(() -> testee.register(null));
 
     // then
     assertThat(result).isInstanceOf(IllegalArgumentException.class);

@@ -17,7 +17,7 @@ import com.flywithus.reservation.dto.ClientDTO;
 import com.flywithus.reservation.dto.ReservationDTO;
 import com.flywithus.reservation.dto.ReservationStatusDTO;
 import com.flywithus.user.adapter.outgoing.InMemoryUserRepositoryAdapter;
-import com.flywithus.user.dto.UserDTO;
+import com.flywithus.user.dto.UserDto;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -144,7 +144,8 @@ public class ReservationStepDefinitions extends IntegrationTest {
   @And("a user is registered")
   public void userIsRegistered() {
     userId = uuid();
-    UserDTO userDTO = new UserDTO(userId, USERNAME, PASSWORD.toCharArray());
+    UserDto userDTO =
+        UserDto.builder().id(userId).username(USERNAME).password(PASSWORD.toCharArray()).build();
     inMemoryUserRepositoryAdapter.save(userDTO);
   }
 
